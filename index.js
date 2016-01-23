@@ -5,7 +5,7 @@ const server = new Hapi.Server();
 server.connection({ port: process.env.PORT });
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect(process.env.MONGOLAB_URI);
 
 var Cat = mongoose.model('Cat', { name: String });
 
