@@ -36,7 +36,7 @@ exports.register = function (server, options, next) {
             _id: mongoose.Types.ObjectId(),
             loc:{
               type:'Point',
-              coordinates:[8.594874265234353, 49.33654935186479]
+              coordinates:[request.payload.longitude, request.payload.latitude]
               }
             });
           MyPoint.save(function(){
