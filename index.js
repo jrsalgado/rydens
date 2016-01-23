@@ -33,6 +33,9 @@ var geoJsonPoly = {
 
 var Point = mongoose.model("Point");
 var MyPoint = new Point({loc:{type:'Point',coordinates:[8.594874265234353, 49.33654935186479]}})
+MyPoint.save(function(){
+  console.log(arguments)
+})
 var pointFields = { '_id': 1, 'loc': 1 };
 Point.find({}).where('loc').within(geoJsonPoly).select(pointFields).lean().exec(function (error, result) {
     console.log("Error: " + error);
