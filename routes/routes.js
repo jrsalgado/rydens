@@ -8,6 +8,9 @@ var PointSchema = new mongoose.Schema({
         coordinates: { type: [Number] }
     }
 }, { collection: "points" });
+PointSchema.index({ loc: "2dsphere" });
+mongoose.model("Point", PointSchema);
+
 var Point = mongoose.model("Point");
 
 PointSchema.index({ loc: "2dsphere" });
