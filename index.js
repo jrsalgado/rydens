@@ -32,7 +32,7 @@ var geoJsonPoly = {
     };
 
 var Point = mongoose.model("Point");
-var MyPoint = new Point({loc:{type:'Point',coordinates:[8.594874265234353, 49.33654935186479]}})
+var MyPoint = new Point({_id: mongoose.Types.ObjectId(),loc:{type:'Point',coordinates:[8.594874265234353, 49.33654935186479]}})
 MyPoint.save(function(){
   console.log(arguments)
 })
