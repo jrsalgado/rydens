@@ -10,7 +10,8 @@
   "dependencies": {
     "hapi": "12.1.0",
     "mocha": "*",
-    "mongoose": "*"
+    "mongoose": "*",
+    "mongodb": "*"
   },
   "engines": {
     "node": "4.2.6"

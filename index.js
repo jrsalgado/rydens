@@ -38,9 +38,7 @@ Point.find({}).where('loc').within(geoJsonPoly).select(pointFields).lean().exec(
     console.log(result);
 });
 
-myLocation.save(function(){
-  console.log(arguments)
-})
+
 
 server.route({
     method: 'GET',
