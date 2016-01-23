@@ -7,7 +7,7 @@ var PointSchema = new mongoose.Schema({
         type: { type: String },
         coordinates: { type: [Number] }
     },
-    user: { type: String }
+    chofer: { type: String }
 }, { collection: "points" });
 PointSchema.index({ loc: "2dsphere" });
 mongoose.model("Point", PointSchema);
