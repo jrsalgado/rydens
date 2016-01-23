@@ -24,7 +24,7 @@ exports.register = function (server, options, next) {
       path: '/gps/{chofer}',
       handler: function (request, reply) {
           console.log(request.payload)
-          Point.find({chofer: request.params.chofer},{ limit:1, sort:{ date: -1 }})
+          Point.find({chofer: request.params.chofer})
           .where('loc')
           .exec(function (error, result) {
               reply({positions:result});
