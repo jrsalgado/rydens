@@ -26,6 +26,7 @@ exports.register = function (server, options, next) {
           console.log(request.payload)
           Point.find({chofer: request.params.chofer})
           .where('loc')
+          .sort({date: -1})
           .exec(function (error, result) {
               reply({positions:result});
           });
