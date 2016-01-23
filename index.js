@@ -1,12 +1,29 @@
-var express = require('express');
-var app = express();
+'use strict';
 
-app.set('port', (process.env.PORT || 5000));
+const Hapi = require('hapi');
 
-app.get('/', function(request, response) {
-  response.send("liiiiiiisto v2.0!!")
+// Create a server with a host and port
+const server = new Hapi.Server();
+server.connection({ 
+    host: 'localhost', 
+    port: 8000 
 });
 
-app.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'));
+// Add the route
+server.route({
+    method: 'GET',
+    path:'/hello', 
+    handler: function (request, reply) {
+
+        return reply('hello world');
+    }
+});
+
+// Start the server
+server.start((err) => {
+
+    if (err) {
+        throw err;
+    }
+    console.log('Server running at:', server.info.uri);
 });
