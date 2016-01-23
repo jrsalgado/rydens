@@ -2,7 +2,7 @@
 
 const Hapi = require('hapi');
 const server = new Hapi.Server();
-server.connection({ port: process.env.PORT });
+server.connection({ port: process.env.PORT, routes: { cors: true } });
 const routes = require('./routes/routes');
 
 server.route({
