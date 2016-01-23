@@ -5,6 +5,7 @@ const server = new Hapi.Server();
 server.connection({ port: process.env.PORT });
 
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 mongoose.connect(process.env.MONGOLAB_URI);
 
 var LocationObject = new Schema({
