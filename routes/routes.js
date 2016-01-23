@@ -24,7 +24,7 @@ exports.register = function (server, options, next) {
           Point.find({}).where('loc').exec(function (error, result) {
              console.log("Error: " + error);
               console.log(result);
-              reply.json({res:result});
+              reply({res:result});
           });
       }});
       server.route({
@@ -41,7 +41,7 @@ exports.register = function (server, options, next) {
             });
           MyPoint.save(function(){
             console.log(arguments)
-            reply.json({res:arguments});
+            reply({res:arguments});
           })
           
       }});
