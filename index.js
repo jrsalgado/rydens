@@ -19,7 +19,7 @@ var LocationObject = new Schema({
 
 var Location = mongoose.model('Location', LocationObject);
 var myLocation = new Location({
-  type:'point',
+  type:'Point',
   coordinates: [-111.0162348, 29.1037726]
 });
 
