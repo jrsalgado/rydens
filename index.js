@@ -4,7 +4,7 @@ var app = express();
 app.set('port', (process.env.PORT || 5000));
 
 app.get('/', function(request, response) {
-  response.send("liisto!!")
+  response.send("liiiiiiisto v2.0!!")
 });
 
 app.listen(app.get('port'), function() {
