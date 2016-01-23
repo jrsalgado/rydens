@@ -1,19 +1,46 @@
 'use strict';
+var mongoose = require('mongoose');
+mongoose.connect(process.env.MONGOLAB_URI);
+var PointSchema = new mongoose.Schema({
+    _id: mongoose.Schema.ObjectId,
+    loc: {
+        type: { type: String },
+        coordinates: { type: [Number] }
+    }
+}, { collection: "points" });
+var Point = mongoose.model("Point");
 
+PointSchema.index({ loc: "2dsphere" });
+mongoose.model("Point", PointSchema);
 exports.register = function (server, options, next) {
     server.route({
       method: 'GET',
       path: '/gps',
       handler: function (request, reply) {
           console.log(request.payload)
-          reply('gps');
+          Point.find({}).where('loc').exec(function (error, result) {
+             console.log("Error: " + error);
+              console.log(result);
+              reply.json(result);
+          });
       }});
       server.route({
       method: 'POST',
       path: '/gps',
       handler: function (request, reply) {
           console.log(request.payload)
-          reply('gps');
+          var MyPoint = new Point({
+            _id: mongoose.Types.ObjectId(),
+            loc:{
+              type:'Point',
+              coordinates:[8.594874265234353, 49.33654935186479]
+              }
+            });
+          MyPoint.save(function(){
+            console.log(arguments)
+            reply.json(arguments);
+          })
+          
       }});
     next();
 };
