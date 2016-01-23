@@ -35,10 +35,10 @@ exports.register = function (server, options, next) {
           console.log(request.payload)
           var MyPoint = new Point({
             _id: mongoose.Types.ObjectId(),
+            chofer: request.payload.chofer,
             loc:{
               type:'Point',
-              coordinates:[request.payload.longitude, request.payload.latitude],
-              chofer: request.payload.chofer
+              coordinates:[request.payload.longitude, request.payload.latitude]
               }
             });
           MyPoint.save(function(err, position){
