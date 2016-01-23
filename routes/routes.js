@@ -38,12 +38,12 @@ exports.register = function (server, options, next) {
             loc:{
               type:'Point',
               coordinates:[request.payload.longitude, request.payload.latitude],
-              chofer: request.payload.name
+              chofer: request.payload.chofer
               }
             });
-          MyPoint.save(function(){
+          MyPoint.save(function(err, position){
             console.log(arguments)
-            reply({res:arguments});
+            reply(position);
           })
           
       }});
