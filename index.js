@@ -7,13 +7,24 @@ server.connection({ port: process.env.PORT });
 var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGOLAB_URI);
 
-var Cat = mongoose.model('Cat', { name: String });
+var LocationObject = new Schema({
+    loc: {
+      type: { type: String },
+      coordinates: []
+    }
+  });
+  // define the index
+  LocationObject.index({ loc : '2dsphere' });
 
-var kitty = new Cat({ name: 'Zildjian' });
-kitty.save(function (err) {
-  if (err) // ...
-  console.log('meow');
+var Location = mongoose.model('Location', LocationObject);
+var myLocation = new Location({
+  type:'point',
+  coordinates: [-111.0162348, 29.1037726]
 });
+
+myLocation.save(function(){
+  console.log(arguments)
+})
 
 server.route({
     method: 'GET',
