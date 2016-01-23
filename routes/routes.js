@@ -29,7 +29,7 @@ exports.register = function (server, options, next) {
           .sort({date: -1})
           .limit(1)
           .exec(function (error, result) {
-              reply({positions:result});
+              reply(result);
           });
       }});
       
