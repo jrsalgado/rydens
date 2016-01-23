@@ -7,7 +7,8 @@ var PointSchema = new mongoose.Schema({
         type: { type: String },
         coordinates: { type: [Number] }
     },
-    chofer: { type: String }
+    chofer: { type: String },
+    date: { type: Date, default: Date.now }
 }, { collection: "points" });
 PointSchema.index({ loc: "2dsphere" });
 mongoose.model("Point", PointSchema);
@@ -23,7 +24,7 @@ exports.register = function (server, options, next) {
       path: '/gps/{chofer}',
       handler: function (request, reply) {
           console.log(request.payload)
-          Point.find({chofer: request.params.chofer},{ limit:1, sort:{ _id: -1 }})
+          Point.find({chofer: request.params.chofer},{ limit:1, sort:{ date: -1 }})
           .where('loc')
           .exec(function (error, result) {
               reply({positions:result});
