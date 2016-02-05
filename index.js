@@ -1,32 +1,26 @@
+/*global process*/
 'use strict';
 
-const Hapi = require('hapi');
-const server = new Hapi.Server();
-server.connection({ port: process.env.PORT, routes: { cors: true } });
-const routes = require('./routes/routes');
+var di = require('ng-di');
 
-server.route({
-    method: 'GET',
-    path: '/',
-    handler: function (request, reply) {
-        reply('Hello, world!');
-    }
+// Create server module
+var server = di.module('server', []);
+
+// Configuration
+server.config(function($provide){
+  var conf = require('./config');
+  $provide.constant('config', (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')? conf.development: process.env.NODE_ENV );
 });
 
-server.route({
-    method: 'GET',
-    path: '/{name}',
-    handler: function (request, reply) {
-        reply('Hello, ' + encodeURIComponent(request.params.name) + '!');
-    }
+// Register factories and constant libraries
+server.constant('express', require('express'));
+
+// Register App dependencies
+server.factory('app', require('./app/index.js'));
+
+server.run(function( app, config){
+  
 });
 
-server.register(routes, (err) => {
-    if (err) {
-        console.error('Failed to load plugin:', err);
-    }
-});
-
-server.start(() => {
-    console.log('Server running at:', server.info.uri);
-});
+// Run App
+di.injector(['server']);

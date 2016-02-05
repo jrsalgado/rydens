@@ -1,0 +1,10 @@
+{
+  "development":{
+    "port": 3000,
+    "databases":{
+      "mongodb":{
+        "MONGOURl":"http://notyetdefined"
+      }
+    }
+  }
+}
