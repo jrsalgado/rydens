@@ -1,11 +1,9 @@
 {
   "development":{
-    "port": 3000,
-    "node_env": "development",
-    "databases":{
-      "mongodb":{
-        "MONGOURl":"http://notyetdefined"
-      }
+    "PORT": 3000,
+    "NODE_ENV": "development",
+    "db":{
+        "MONGOLAB_URI":"mongodb://localhost:27017/rydens"
     }
   }
 }
