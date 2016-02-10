@@ -7,15 +7,15 @@ var di = require('ng-di');
 var server = di.module('server', []);
 
 // Configuration
-  // set process.env
-server.config(function setEnvVar($provide){
+// set process.env
+server.config(function setEnvVar($provide) {
   var env = require('./config').development;
   process.env.NODE_ENV = process.env.NODE_ENV || env.NODE_ENV;
   process.env.PORT = process.env.PORT || env.PORT;
   process.env.MONGOLAB_URI = process.env.MONGOLAB_URI || env.db.MONGOLAB_URI;
 });
-  // connect Mongo data base
-server.config(function connectMongodb($provide, mongoose){
+// connect Mongo data base
+server.config(function connectMongodb($provide, mongoose) {
   mongoose.connect(process.env.MONGOLAB_URI);
 });
 
@@ -26,20 +26,21 @@ server.constant('bodyParser', require('body-parser'));
 server.constant('expressJoi', require('express-joi'));
 
 // Register App dependencies
-  // schemas
+// schemas
 server.factory('schema.location', require('./api/v1/schemas/location'));
 server.factory('schema.user', require('./api/v1/schemas/user'));
-  // models
+// models
 server.factory('model.user', require('./api/v1/models/user'));
-  // routes
+// routes
 server.factory('users.router', require('./api/v1/routers/users'));
+server.factory('drivers.router', require('./api/v1/routers/drivers'));
 server.factory('main.router', require('./api/v1/routers/main'));
 server.factory('app', require('./app/index.js'));
-  // Middlewares
+// Middlewares
 server.factory('validator', require('./api/v1/middlewares/validator'));
 
-server.run(['app', 'validator', function runApp(app, validator){
-  
+server.run(['app', function runApp(app) {
+
 }]);
 
 // Run App

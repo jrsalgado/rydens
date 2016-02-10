@@ -21,6 +21,21 @@ function validator(expressJoi){
           coordinates: Joi.types.Array(),
         }
       }
+    },
+    drivers:{
+      setLocation:{
+        driver: Joi.string().required(),
+        location: Joi.object({
+          longitude: Joi.number().required(),
+          latitude: Joi.number().required()
+        }).required()
+      },
+      set:{
+        user: Joi.string().length(24).required()
+      },
+      unset:{
+        user: Joi.string().length(24).required()
+      }
     }
   }
 }
