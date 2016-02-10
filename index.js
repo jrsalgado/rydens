@@ -22,6 +22,8 @@ server.config(function connectMongodb($provide, mongoose){
 // Register factories and constant libraries
 server.constant('express', require('express'));
 server.constant('mongoose', require('mongoose'));
+server.constant('bodyParser', require('body-parser'));
+server.constant('expressJoi', require('express-joi'));
 
 // Register App dependencies
   // schemas
@@ -33,8 +35,10 @@ server.factory('model.user', require('./api/v1/models/user'));
 server.factory('users.router', require('./api/v1/routers/users'));
 server.factory('main.router', require('./api/v1/routers/main'));
 server.factory('app', require('./app/index.js'));
+  // Middlewares
+server.factory('validator', require('./api/v1/middlewares/validator'));
 
-server.run(['app',function runApp(app){
+server.run(['app', 'validator', function runApp(app, validator){
   
 }]);
 
