@@ -11,22 +11,27 @@ function usersCtrls(User, Q) {
   }
 
   function fetchAllUsers(req, res) {
-    var deferred =Q.defer();
+    var def =Q.defer();
     User.find(function (err, users) {
       if(!!err){
-        deferred.reject(err);
+        def.reject(err);
       }else{
-        deferred.resolve(users);
+        def.resolve(users);
       }
     });
-    return deferred.promise;
+    return def.promise;
   }
 
   function saveNewUser(req, res) {
-    // store in data base
+    var def = Q.defer();
     var newUser = new User(req.body);
-    newUser.save(function (err, user) {
-      res.send(user);
+    newUser.save(function(err, user){
+       if(!!err){
+         def.reject(err);
+       }else{
+         def.resolve(user);
+       }
     });
+    return def.promise;
   }
 }
