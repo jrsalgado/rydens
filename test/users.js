@@ -2,15 +2,14 @@
 /*global describe, it, before, after, beforeEach, afterEach*/
 
 module.exports = usersTest;
-usersTest.$inject = ['chai', 'chai-as-promised', 'q', 'httpMocks', 'users.controllers'];
+usersTest.$inject = ['chai', 'chai-as-promised', 'q', 'mocks', 'httpMocks', 'users.controllers'];
 
-function usersTest(chai, chaiAsPromised, q, httpMocks, middleware) {
+function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware) {
+  chai.use(chaiAsPromised);
+  chai.should();
 
   describe('/users', function () {
     var req, res;
-    chai.use(chaiAsPromised);
-    chai.should();
-
     describe('GET /users', function () {
       beforeEach(function () {
         req = httpMocks.createExpressRequest();
@@ -22,26 +21,15 @@ function usersTest(chai, chaiAsPromised, q, httpMocks, middleware) {
     });
 
     describe('POST /users', function () {
-      var newUser={};
-      before(function(){
-        newUser.good = {
-          name: "laurita",
-          lastName: "garza",
-          age: 24
-        };
-        newUser.missing = {
-          name: "popeye",
-          lastName: "marino"
-        };
-      });
+      var body = mocks.users;
       it('should return a New Object', function (done) {
-        req = httpMocks.createExpressRequest({ body: newUser.good });
+        req = httpMocks.createExpressRequest({ body: body.good });
         res = httpMocks.createExpressResponse();
         middleware.saveNewUser(req, res).should.eventually.be.an('object').notify(done);
       });
       
       it('should be rejected when missing elements in body', function (done) {
-        req = httpMocks.createExpressRequest({ body: newUser.missing });
+        req = httpMocks.createExpressRequest({ body: body.missing });
         res = httpMocks.createExpressResponse();
         middleware.saveNewUser(req, res).should.eventually.be.rejected.notify(done);
       });
