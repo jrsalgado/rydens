@@ -24,6 +24,7 @@ server.constant('express', require('express'));
 server.constant('mongoose', require('mongoose'));
 server.constant('bodyParser', require('body-parser'));
 server.constant('expressJoi', require('express-joi'));
+server.constant('q', require('q'));
 
 // Register App dependencies
   // schemas
@@ -36,10 +37,11 @@ server.factory('users.router', require('./api/v1/routers/users'));
 server.factory('main.router', require('./api/v1/routers/main'));
 server.factory('app', require('./app/index.js'));
   // Middlewares
-server.factory('validator', require('./api/v1/middlewares/validator'));
+server.factory('users.controllers', require('./api/v1/middlewares/users'));
+server.factory('validator', require('./api/v1/middlewares/utils/validator'));
 
-server.run(['app', 'validator', function runApp(app, validator){
-  
+server.run(['app', 'users.controllers', function runApp(app, x){
+//  console.log(x);
 }]);
 
 // Run App

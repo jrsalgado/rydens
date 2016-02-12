@@ -1,8 +1,8 @@
 'use strict';
 module.exports = usersRouter;
-usersRouter.$inject = ['express', 'validator', 'expressJoi', 'model.user'];
+usersRouter.$inject = ['express', 'validator', 'expressJoi', 'model.user', 'users.controllers'];
 
-function usersRouter(express, validator, expressJoi, User){
+function usersRouter(express, validator, expressJoi, User, usersCtrl){
   var router = express.Router();
   
   router.post('/', expressJoi.joiValidate(validator.users.post),function(req, res){
@@ -13,10 +13,15 @@ function usersRouter(express, validator, expressJoi, User){
     });
   });
   
-  router.get('/',function(req, res){
-    User.find(function(err, users){
-      res.send(users);
-    });
+  router.get('/',function(req, res, next){
+    usersCtrl.fetchAllUsers(req, res)
+    .then(function(users){
+      return res.json(users);
+      })
+    .catch( function(err){
+      return res.json(err);
+    })
+    .done();
   });
   
   // DRIVER LOCATION
