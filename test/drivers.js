@@ -9,8 +9,11 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware) {
   chai.should();
   
   describe('/driver', function () {
+    var req, res;
     describe('GET /driver', function () {
       it('should be an Array of drivers', function (done) {
+        req = httpMocks.createExpressRequest();
+        res = httpMocks.createExpressResponse();
         middleware.fetchAllDrivers(req, res).should.eventually.be.an('array').notify(done)
       });
     });
