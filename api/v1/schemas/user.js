@@ -1,15 +1,14 @@
 'use strict';
 module.exports= userSchema;
-userSchema.$inject = ['mongoose', 'schema.location'];
 
-function userSchema(mongoose, schemaLocation){
+function userSchema(mongoose, locationSchema){
   
   return mongoose.Schema({
     name : {type: String, required: true},
     lastName: {type: String, required: true},
     nsApiId: {type: String},
     age: {type: Number, required: true},
-    location: {type: schemaLocation},
+    location: {type: locationSchema},
     driver: {type: Boolean, default: false}
   }).index({ "location" : "2dsphere" });;
 };

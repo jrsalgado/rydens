@@ -34,8 +34,8 @@ server.constant('Promise',  require('bluebird'));
 
 // Register App dependencies
   // schemas
-server.factory('schema.location', require('./api/v1/schemas/location'));
-server.factory('schema.user', require('./api/v1/schemas/user'));
+server.factory('locationSchema', require('./api/v1/schemas/location'));
+server.factory('userSchema', require('./api/v1/schemas/user'));
   // models
 server.factory('UserModel', require('./api/v1/models/user'));
   // routes
