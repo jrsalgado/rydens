@@ -14,8 +14,13 @@ server.config(function setEnvVar($provide){
   process.env.PORT = process.env.PORT || env.PORT;
   process.env.MONGOLAB_URI = process.env.MONGOLAB_URI || env.db.MONGOLAB_URI;
 });
+
+server.config(function promiseLibraries( mongoose, Promise){
+  Promise.promisifyAll(mongoose);
+});
+
   // connect Mongo data base
-server.config(function connectMongodb($provide, mongoose){
+server.config(function connectMongodb(mongoose){
   mongoose.connect(process.env.MONGOLAB_URI);
 });
 
@@ -25,6 +30,7 @@ server.constant('mongoose', require('mongoose'));
 server.constant('bodyParser', require('body-parser'));
 server.constant('expressJoi', require('express-joi'));
 server.constant('q', require('q'));
+server.constant('Promise',  require('bluebird'));
 
 // Register App dependencies
   // schemas
@@ -35,14 +41,13 @@ server.factory('model.user', require('./api/v1/models/user'));
   // routes
 server.factory('users.router', require('./api/v1/routers/users'));
 server.factory('main.router', require('./api/v1/routers/main'));
-server.factory('app', require('./app/index.js'));
+
   // Middlewares
 server.factory('users.controllers', require('./api/v1/middlewares/users'));
+server.factory('drivers.controllers', require('./api/v1/middlewares/drivers'));
 server.factory('validator', require('./api/v1/middlewares/utils/validator'));
 
-server.run(['app', 'users.controllers', function runApp(app, x){
-//  console.log(x);
-}]);
+server.constant('app', require('express')());
 
 // Run App
-di.injector(['server']);
+//di.injector(['server']);

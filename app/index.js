@@ -1,16 +1,15 @@
 /*global process*/
 'use strict';
 
-module.exports= app;
-app.$inject = ['express', 'bodyParser', 'users.router'];
+module.exports= appRun;
+appRun.$inject = ['app', 'bodyParser', 'users.router'];
 
-function app(express, bodyParser ,usersRouter){
-  var v1 = express();
+function appRun(app, bodyParser ,usersRouter){
   
-  v1.use(bodyParser.json());
-  v1.use('/users', usersRouter);
-  v1.listen(process.env.PORT, function(){
+  app.use(bodyParser.json());
+  app.use('/users', usersRouter);
+  app.listen(process.env.PORT, function(){
     console.log('listen port: '+ process.env.PORT);
   });
-  return v1;
+  return app;
 }
