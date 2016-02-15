@@ -11,14 +11,20 @@ function driversCtrls(User, Q) {
   }
   
   function fetchAllDrivers(req, res){
-    var def = Q.defer();
-    User.find({ driver: true }, function(err, drivers){
-      if(!!err){
-        def.reject(err);
-      }else{
-        def.resolve(drivers);
-      }
-    });
+    var query, promise, def = Q.defer();
+    
+    query = User.find({ driver: true });
+    promise = query.exec();
+    promise.then(success, error);
+    
+    function success(drivers){
+      def.resolve(drivers);
+    }
+    
+    function error(err){
+      def.reject(err);
+    }
+    
     return def.promise;
   }
   
@@ -27,7 +33,7 @@ function driversCtrls(User, Q) {
     
     query = User.findOne({_id: req.params.id});
     promise = query.exec();
-    query.then(success, error);
+    promise.then(success, error);
     
     function success(user){
       if(!user){
