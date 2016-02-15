@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = usersCtrls;
-usersCtrls.$inject = ['model.user', 'q'];
+usersCtrls.$inject = ['UserModel', 'q'];
 
 function usersCtrls(User, Q) {
 

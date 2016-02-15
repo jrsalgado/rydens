@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = driversCtrls;
-driversCtrls.$inject = ['model.user','q'];
+driversCtrls.$inject = ['UserModel','q'];
 
 function driversCtrls(User, Q) {
 

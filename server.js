@@ -12,7 +12,7 @@ server.config(function setEnvVar($provide){
   var env = require('./config').development;
   process.env.NODE_ENV = process.env.NODE_ENV || env.NODE_ENV;
   process.env.PORT = process.env.PORT || env.PORT;
-  process.env.MONGOLAB_URI = process.env.MONGOLAB_URI || env.db.MONGOLAB_URI;
+  process.env.MONGOLAB_URI = process.env.MONGOLAB_URI || env.MONGOLAB_URI;
 });
 
 server.config(function promiseLibraries( mongoose, Promise){
@@ -37,7 +37,7 @@ server.constant('Promise',  require('bluebird'));
 server.factory('schema.location', require('./api/v1/schemas/location'));
 server.factory('schema.user', require('./api/v1/schemas/user'));
   // models
-server.factory('model.user', require('./api/v1/models/user'));
+server.factory('UserModel', require('./api/v1/models/user'));
   // routes
 server.factory('users.router', require('./api/v1/routers/users'));
 server.factory('main.router', require('./api/v1/routers/main'));

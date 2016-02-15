@@ -1,8 +1,9 @@
 'use strict';
 module.exports = usersRouter;
-usersRouter.$inject = ['express', 'validator', 'expressJoi', 'model.user', 'usersCtrls'];
+usersRouter.$inject = ['express', 'validator', 'expressJoi', 'UserModel', 'usersCtrls'];
 
 function usersRouter(express, validator, expressJoi, User, usersCtrl){
+  //Todo: inject a router instance
   var router = express.Router();
   
   router.post('/', expressJoi.joiValidate(validator.users.post),function(req, res){
