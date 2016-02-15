@@ -89,13 +89,13 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
         .notify(done);
       });
 
-      it('should be rejected if user not found', function (done){
+      it('should be fullfilled and equals null if user not found', function (done){
         req = httpMocks.createExpressRequest({
           params:{ id: "344332234422331123456778" }
         });
         res = httpMocks.createExpressResponse();
         middleware.setAsDriver(req, res)
-        .should.be.rejected.notify(done);
+        .should.be.fulfilled.and.eventually.be.equals(null).notify(done);
       });
     });
     

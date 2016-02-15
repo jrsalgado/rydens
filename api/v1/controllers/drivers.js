@@ -2,7 +2,7 @@
 
 module.exports = driversCtrls;
 
-function driversCtrls(UserModel, q) {
+function driversCtrls(UserModel) {
 
   return {
     fetchAllDrivers: fetchAllDrivers,
@@ -28,27 +28,27 @@ function driversCtrls(UserModel, q) {
   }
   
   function setAsDriver(req, res){
-    var query, promise, def = q.defer();
+    var promise;
     
-    query = UserModel.findOne({_id: req.params.id});
-    promise = query.exec();
-    promise.then(success, error);
-    
+    promise = UserModel.findOneAsync({_id: req.params.id});
+    promise.then(success);
+    promise.catch(error);
+
     function success(user){
       if(!user){
-        def.reject({msg: "user not found"});
+        return user;
       }else{
         user.driver = true;
         user.save();
-        def.resolve(user);
+        return user;
       }
     }
 
     function error(err){
-      def.reject(err);
+      return error;
     }
-
-    return def.promise;
+    
+    return promise;
   }
   
 }
