@@ -6,15 +6,10 @@ function usersRouter(express, validator, expressJoi, User, usersCtrl){
   //Todo: inject a router instance
   var router = express.Router();
   
-  router.post('/', expressJoi.joiValidate(validator.users.post),function(req, res){
-    // store in data base
-    var newUser = new User(req.body);
-    newUser.save(function(err, user){
-       res.send(user);
-    });
-  });
+  router.post('/', expressJoi.joiValidate(validator.users.post));
+  router.post('/', usersCtrl.createOne);
   
-  router.get('/', usersCtrl.fetchAllUsers);
+  router.get('/', usersCtrl.getAll);
   
   // DRIVER LOCATION
   router.get('/location/:driver', function(req, res){

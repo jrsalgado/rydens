@@ -39,12 +39,14 @@ server.factory('userSchema', require('./api/v1/schemas/user'));
   // models
 server.factory('UserModel', require('./api/v1/models/user'));
   // routes
-server.factory('users.router', require('./api/v1/routers/users'));
+server.factory('usersRouter', require('./api/v1/routers/users'));
 server.factory('main.router', require('./api/v1/routers/main'));
 
-  // Middlewares
+  // Controllers
 server.factory('usersCtrls', require('./api/v1/controllers/users'));
 server.factory('driversCtrls', require('./api/v1/controllers/drivers'));
+  // Middlewares
+server.factory('usersMiddlewares', require('./api/v1/middlewares/users'));
 server.factory('validator', require('./api/v1/controllers/utils/validator'));
 
 server.constant('app', require('express')());

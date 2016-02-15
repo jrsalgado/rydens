@@ -2,29 +2,31 @@
 
 module.exports = usersCtrls;
 
-function usersCtrls(UserModel) {
-  // Todo; Routes should respond to client
+function usersCtrls(usersMiddlewares) {
+  // Todo; Routes should pass error to next
   return {
-    fetchAllUsers: fetchAllUsers,
-    saveNewUser: saveNewUser
+    getAll: getAll,
+    createOne: createOne
   }
 
-    // usersCtrl.fetchAllUsers(req, res)
-    // .then(function(users){
-    //   return res.json(users);
-    //   })
-    // .catch( function(err){
-    //   return res.json(err);
-    // })
-    // .done();
+  function getAll(req, res, next) {
+    usersMiddlewares.fetchAllUsers(req, res)
+    .then(function succes(users){
+      res.json(users);
+    })
+    .catch(function error(err){
+      next(err);
+    });
+  }
+  
+  function createOne(req, res, next) {
+    usersMiddlewares.saveNewUser(req, res)
+    .then(function success(user){
+      res.json(user);
+    })
+    .catch(function error(err){
+      next(err)
+    });
+  }
 
-  function fetchAllUsers(req, res, next) {
-    return UserModel.findAsync();
-  }
-  
-  function saveNewUser(req, res, next) {
-    var newUser = new UserModel(req.body);
-    return newUser.saveAsync();
-  }
-  
 }

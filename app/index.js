@@ -2,7 +2,6 @@
 'use strict';
 
 module.exports= appRun;
-appRun.$inject = ['app', 'bodyParser', 'users.router'];
 
 function appRun(app, bodyParser ,usersRouter){
   
