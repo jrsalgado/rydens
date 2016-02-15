@@ -1,9 +1,8 @@
 'use strict';
 
 module.exports = driversCtrls;
-driversCtrls.$inject = ['UserModel','q'];
 
-function driversCtrls(User, Q) {
+function driversCtrls(UserModel, q) {
 
   return {
     fetchAllDrivers: fetchAllDrivers,
@@ -13,7 +12,7 @@ function driversCtrls(User, Q) {
   function fetchAllDrivers(req, res){
     var promise;
     
-    promise = User.findAsync({ driver: true });
+    promise = UserModel.findAsync({ driver: true });
     promise.then(success);
     promise.catch(error);
     
@@ -29,9 +28,9 @@ function driversCtrls(User, Q) {
   }
   
   function setAsDriver(req, res){
-    var query, promise, def = Q.defer();
+    var query, promise, def = q.defer();
     
-    query = User.findOne({_id: req.params.id});
+    query = UserModel.findOne({_id: req.params.id});
     promise = query.exec();
     promise.then(success, error);
     
