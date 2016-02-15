@@ -1,5 +1,5 @@
 var di = require('ng-di');
-var server = require('../index.js');
+var server = require('../server.js');
 
 var test = di.module('test', ['server']);
 
