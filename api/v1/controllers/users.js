@@ -3,7 +3,7 @@
 module.exports = usersCtrls;
 
 function usersCtrls(UserModel) {
-
+  // Todo; Routes should respond to client
   return {
     fetchAllUsers: fetchAllUsers,
     saveNewUser: saveNewUser
@@ -19,40 +19,12 @@ function usersCtrls(UserModel) {
     // .done();
 
   function fetchAllUsers(req, res, next) {
-    var promise;
-
-    promise = UserModel.findAsync();
-    promise.then(success);
-    promise.catch(error);
-    
-    function success(users){
-      return users;
-    }
-    
-    function error(err){
-      return err;
-    }
-    
-    return promise;
+    return UserModel.findAsync();
   }
   
   function saveNewUser(req, res, next) {
-    var promise;
-
     var newUser = new UserModel(req.body);
-    promise = newUser.saveAsync();
-    promise.then(success);
-    promise.catch(error);
-    
-    function success(user){
-      return user;
-    };
-    
-    function error(err){
-      return err;
-    }
-    
-    return promise;
+    return newUser.saveAsync();
   }
   
 }

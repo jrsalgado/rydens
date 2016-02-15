@@ -10,45 +10,11 @@ function driversCtrls(UserModel) {
   }
   
   function fetchAllDrivers(req, res){
-    var promise;
-    
-    promise = UserModel.findAsync({ driver: true });
-    promise.then(success);
-    promise.catch(error);
-    
-    function success(drivers){
-      return drivers;
-    }
-    
-    function error(err){
-      return err;
-    }
-    
-    return promise;
+    return UserModel.findAsync({ driver: true });;
   }
   
   function setAsDriver(req, res){
-    var promise;
-    
-    promise = UserModel.findOneAsync({_id: req.params.id});
-    promise.then(success);
-    promise.catch(error);
-
-    function success(user){
-      if(!user){
-        return user;
-      }else{
-        user.driver = true;
-        user.save();
-        return user;
-      }
-    }
-
-    function error(err){
-      return err;
-    }
-    
-    return promise;
+    return UserModel.findOneAsync({_id: req.params.id});
   }
   
 }
