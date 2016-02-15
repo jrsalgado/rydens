@@ -43,11 +43,13 @@ server.factory('users.router', require('./api/v1/routers/users'));
 server.factory('main.router', require('./api/v1/routers/main'));
 
   // Middlewares
-server.factory('users.controllers', require('./api/v1/middlewares/users'));
-server.factory('drivers.controllers', require('./api/v1/middlewares/drivers'));
-server.factory('validator', require('./api/v1/middlewares/utils/validator'));
+server.factory('usersCtrls', require('./api/v1/controllers/users'));
+server.factory('driversCtrls', require('./api/v1/controllers/drivers'));
+server.factory('validator', require('./api/v1/controllers/utils/validator'));
 
 server.constant('app', require('express')());
+
+server.run(require('./app/index.js'));
 
 module.exports = server;
  

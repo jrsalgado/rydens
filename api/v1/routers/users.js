@@ -1,6 +1,6 @@
 'use strict';
 module.exports = usersRouter;
-usersRouter.$inject = ['express', 'validator', 'expressJoi', 'model.user', 'users.controllers'];
+usersRouter.$inject = ['express', 'validator', 'expressJoi', 'model.user', 'usersCtrls'];
 
 function usersRouter(express, validator, expressJoi, User, usersCtrl){
   var router = express.Router();

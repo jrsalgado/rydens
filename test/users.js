@@ -2,7 +2,7 @@
 /*global describe, it, before, after, beforeEach, afterEach*/
 
 module.exports = usersTest;
-usersTest.$inject = ['chai', 'chai-as-promised', 'q', 'mocks', 'httpMocks', 'users.controllers'];
+usersTest.$inject = ['chai', 'chai-as-promised', 'q', 'mocks', 'httpMocks', 'usersCtrls'];
 
 function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware) {
   chai.use(chaiAsPromised);

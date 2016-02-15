@@ -2,7 +2,7 @@
 /*global describe, it, before, after, beforeEach, afterEach*/
 
 module.exports = usersTest;
-usersTest.$inject = ['chai', 'chai-as-promised', 'q', 'mocks', 'httpMocks', 'drivers.controllers', 'model.user', 'Promise'];
+usersTest.$inject = ['chai', 'chai-as-promised', 'q', 'mocks', 'httpMocks', 'driversCtrls', 'model.user', 'Promise'];
 
 function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserModel, Promise) {
   chai.use(chaiAsPromised);
@@ -27,7 +27,6 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
           return newUser.saveAsync();
         })
         .then(function(){
-          console.log(arguments);
           return done();
         });
         
