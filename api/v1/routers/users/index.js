@@ -13,16 +13,7 @@ function usersRouter(express, validator, expressJoi, User, usersCtrl){
     });
   });
   
-  router.get('/',function(req, res, next){
-    usersCtrl.fetchAllUsers(req, res)
-    .then(function(users){
-      return res.json(users);
-      })
-    .catch( function(err){
-      return res.json(err);
-    })
-    .done();
-  });
+  router.get('/', usersCtrl.fetchAllUsers);
   
   // DRIVER LOCATION
   router.get('/location/:driver', function(req, res){

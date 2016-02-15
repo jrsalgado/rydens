@@ -10,7 +10,16 @@ function usersCtrls(User, Q) {
     saveNewUser: saveNewUser
   }
 
-  function fetchAllUsers(req, res) {
+    // usersCtrl.fetchAllUsers(req, res)
+    // .then(function(users){
+    //   return res.json(users);
+    //   })
+    // .catch( function(err){
+    //   return res.json(err);
+    // })
+    // .done();
+
+  function fetchAllUsers(req, res, next) {
     var def =Q.defer();
     User.find(function (err, users) {
       if(!!err){

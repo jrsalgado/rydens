@@ -23,7 +23,7 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware) {
     describe('POST /users', function () {
       var body = mocks.users;
       it('should return a New Object', function (done) {
-        req = httpMocks.createExpressRequest({ body: body.good });
+        req = httpMocks.createExpressRequest({ body: body.good[0] });
         res = httpMocks.createExpressResponse();
         middleware.saveNewUser(req, res).should.eventually.be.an('object').notify(done);
       });

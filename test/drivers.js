@@ -2,19 +2,41 @@
 /*global describe, it, before, after, beforeEach, afterEach*/
 
 module.exports = usersTest;
-usersTest.$inject = ['chai', 'chai-as-promised', 'q', 'mocks', 'httpMocks', 'drivers.controllers', 'model.user'];
+usersTest.$inject = ['chai', 'chai-as-promised', 'q', 'mocks', 'httpMocks', 'drivers.controllers', 'model.user', 'Promise'];
 
-function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserModel) {
+function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserModel, Promise) {
   chai.use(chaiAsPromised);
   chai.should();
   
   describe('/driver', function () {
     var req, res;
     describe('GET /driver', function () {
-      it('should be an Array of drivers', function (done) {
+      var user1, user2;
+      before(function(done){
+        var laurita, chalino;
+        
+        UserModel.remove({}, function(err){});
+        
+        laurita = mocks.users.good[0];
+        laurita.driver = true;
+        chalino = mocks.users.good[1];
+        chalino.driver = true;
+        
+        Promise.map([laurita, chalino], function(user){
+          var newUser = new UserModel(user);
+          return newUser.saveAsync();
+        })
+        .then(function(){
+          console.log(arguments);
+          return done();
+        });
+        
+      });
+      it('should be an Array of drivers', function () {
         req = httpMocks.createExpressRequest();
         res = httpMocks.createExpressResponse();
-        middleware.fetchAllDrivers(req, res).should.eventually.be.an('array').notify(done);
+        
+        return middleware.fetchAllDrivers(req, res).should.eventually.be.an('array').and.to.have.length(2);
       });
     });
     
@@ -51,7 +73,7 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
       before(function(done){
         UserModel.remove({}, function(err){
         });
-        user1 = new UserModel(mocks.users.good);
+        user1 = new UserModel(mocks.users.good[0]);
         user1.save(function(err, user){
           done();
         });
