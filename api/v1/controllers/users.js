@@ -1,9 +1,8 @@
 'use strict';
 
 module.exports = usersCtrls;
-usersCtrls.$inject = ['UserModel', 'q'];
 
-function usersCtrls(User, Q) {
+function usersCtrls(UserModel, q) {
 
   return {
     fetchAllUsers: fetchAllUsers,
@@ -20,8 +19,8 @@ function usersCtrls(User, Q) {
     // .done();
 
   function fetchAllUsers(req, res, next) {
-    var def =Q.defer();
-    User.find(function (err, users) {
+    var def =q.defer();
+    UserModel.find(function (err, users) {
       if(!!err){
         def.reject(err);
       }else{
@@ -32,8 +31,8 @@ function usersCtrls(User, Q) {
   }
 
   function saveNewUser(req, res) {
-    var def = Q.defer();
-    var newUser = new User(req.body);
+    var def = q.defer();
+    var newUser = new UserModel(req.body);
     newUser.save(function(err, user){
        if(!!err){
          def.reject(err);
