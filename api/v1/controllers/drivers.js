@@ -45,7 +45,7 @@ function driversCtrls(UserModel) {
     }
 
     function error(err){
-      return error;
+      return err;
     }
     
     return promise;

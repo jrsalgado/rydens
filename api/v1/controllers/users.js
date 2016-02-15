@@ -2,7 +2,7 @@
 
 module.exports = usersCtrls;
 
-function usersCtrls(UserModel, q) {
+function usersCtrls(UserModel) {
 
   return {
     fetchAllUsers: fetchAllUsers,
@@ -19,27 +19,40 @@ function usersCtrls(UserModel, q) {
     // .done();
 
   function fetchAllUsers(req, res, next) {
-    var def =q.defer();
-    UserModel.find(function (err, users) {
-      if(!!err){
-        def.reject(err);
-      }else{
-        def.resolve(users);
-      }
-    });
-    return def.promise;
-  }
+    var promise;
 
-  function saveNewUser(req, res) {
-    var def = q.defer();
-    var newUser = new UserModel(req.body);
-    newUser.save(function(err, user){
-       if(!!err){
-         def.reject(err);
-       }else{
-         def.resolve(user);
-       }
-    });
-    return def.promise;
+    promise = UserModel.findAsync();
+    promise.then(success);
+    promise.catch(error);
+    
+    function success(users){
+      return users;
+    }
+    
+    function error(err){
+      return err;
+    }
+    
+    return promise;
   }
+  
+  function saveNewUser(req, res, next) {
+    var promise;
+
+    var newUser = new UserModel(req.body);
+    promise = newUser.saveAsync();
+    promise.then(success);
+    promise.catch(error);
+    
+    function success(user){
+      return user;
+    };
+    
+    function error(err){
+      return err;
+    }
+    
+    return promise;
+  }
+  
 }
