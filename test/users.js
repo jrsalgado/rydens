@@ -2,7 +2,7 @@
 /*global describe, it, before, after, beforeEach, afterEach*/
 
 module.exports = usersTest;
-usersTest.$inject = ['chai', 'chai-as-promised', 'q', 'mocks', 'httpMocks', 'usersCtrls'];
+usersTest.$inject = ['chai', 'chai-as-promised', 'q', 'mocks', 'httpMocks', 'usersMiddlewares'];
 
 function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware) {
   chai.use(chaiAsPromised);
@@ -15,23 +15,28 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware) {
         req = httpMocks.createExpressRequest();
         res = httpMocks.createExpressResponse();
       });
-      it('should return an Array', function (done) {
-        middleware.fetchAllUsers(req, res).should.eventually.be.an('array').notify(done);
+      it('should return an Array', function () {
+        return middleware.fetchAllUsers(req, res).should.eventually.be.an('array');
       });
     });
 
     describe('POST /users', function () {
       var body = mocks.users;
-      it('should return a New Object', function (done) {
-        req = httpMocks.createExpressRequest({ body: body.good[0] });
+      it('should return a new user', function () {
+        var laurita =  body.good[0];
+        req = httpMocks.createExpressRequest({ body: laurita });
         res = httpMocks.createExpressResponse();
-        middleware.saveNewUser(req, res).should.eventually.be.an('object').notify(done);
+        
+        return middleware.saveNewUser(req, res).
+        should.eventually.be.fulfilled
+        .and.to.include(laurita);
       });
       
-      it('should be rejected when missing elements in body', function (done) {
+      it('should be rejected when missing elements in body', function () {
         req = httpMocks.createExpressRequest({ body: body.missing });
         res = httpMocks.createExpressResponse();
-        middleware.saveNewUser(req, res).should.eventually.be.rejected.notify(done);
+        
+        return middleware.saveNewUser(req, res).should.eventually.be.rejected;
       });
 
     });
