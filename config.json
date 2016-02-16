@@ -1,0 +1,12 @@
+{
+  "development":{
+    "PORT": 3000,
+    "NODE_ENV": "development",
+    "MONGOLAB_URI":"mongodb://localhost:27017/rydens"
+  },
+  "test":{
+    "PORT": 3100,
+    "NODE_ENV": "test",
+    "MONGOLAB_URI": "mongodb://localhost:27017/rydensTest"
+  }
+}
