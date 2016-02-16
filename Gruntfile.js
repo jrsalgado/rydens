@@ -2,15 +2,18 @@
 module.exports= function(grunt){
 
   grunt.initConfig({
-    shell: {
-      options: {
-        stderr: false
+    env:{
+      test: grunt.file.readJSON('./config.json').test
+    },
+    mochaTest:{
+      test:{
+        quiet: false
       },
-      target: {
-        command: 'mongod'
-      }
+      src: ['test']
     }
   });
-  grunt.loadNpmTasks('grunt-shell');
-  grunt.registerTask('default', ['shell']);
+  grunt.loadNpmTasks('grunt-env');
+  grunt.loadNpmTasks('grunt-mocha-test');
+  
+  grunt.registerTask('test', ['env:test', 'mochaTest']);
 };
