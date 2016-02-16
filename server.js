@@ -40,6 +40,7 @@ server.factory('userSchema', require('./api/v1/schemas/user'));
 server.factory('UserModel', require('./api/v1/models/user'));
   // routes
 server.factory('usersRouter', require('./api/v1/routers/users'));
+server.factory('driversRouter', require('./api/v1/routers/drivers'));
 server.factory('main.router', require('./api/v1/routers/main'));
 
   // Controllers
@@ -47,6 +48,7 @@ server.factory('usersCtrls', require('./api/v1/controllers/users'));
 server.factory('driversCtrls', require('./api/v1/controllers/drivers'));
   // Middlewares
 server.factory('usersMiddlewares', require('./api/v1/middlewares/users'));
+server.factory('driversMiddlewares', require('./api/v1/middlewares/drivers'));
 server.factory('validator', require('./api/v1/controllers/utils/validator'));
 
 server.constant('app', require('express')());
