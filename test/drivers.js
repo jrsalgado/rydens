@@ -2,17 +2,16 @@
 /*global describe, it, before, after, beforeEach, afterEach*/
 
 module.exports = usersTest;
-usersTest.$inject = ['chai', 'chai-as-promised', 'q', 'mocks', 'httpMocks', 'driversCtrls', 'UserModel', 'Promise'];
+usersTest.$inject = ['chai', 'chai-as-promised', 'q', 'mocks', 'httpMocks', 'driversMiddlewares', 'UserModel', 'Promise'];
 
 function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserModel, Promise) {
   chai.use(chaiAsPromised);
   chai.should();
-  
+
   describe('/driver', function () {
     var req, res;
     describe('GET /driver', function () {
-      var user1, user2;
-      before(function(done){
+      before(function(){
         var laurita, chalino;
         
         UserModel.remove({}, function(err){});
@@ -22,12 +21,9 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
         chalino = mocks.users.good[1];
         chalino.driver = true;
         
-        Promise.map([laurita, chalino], function(user){
+        return Promise.map([laurita, chalino], function(user){
           var newUser = new UserModel(user);
           return newUser.saveAsync();
-        })
-        .then(function(){
-          return done();
         });
         
       });
@@ -35,7 +31,9 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
         req = httpMocks.createExpressRequest();
         res = httpMocks.createExpressResponse();
         
-        return middleware.fetchAllDrivers(req, res).should.eventually.be.an('array').and.to.have.length(2);
+        return middleware.fetchAllDrivers(req, res)
+        .should.eventually.be.an('array')
+        .and.to.have.length(2);
       });
     });
     
@@ -67,7 +65,7 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
       });
     });
     
-    describe('PATCH /driver/set/:id', function (done) {
+    describe('PATCH /driver/set/:id', function () {
       var user1;
       before(function(done){
         UserModel.remove({}, function(err){
@@ -78,24 +76,26 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
         });
       });
 
-      it('should not be rejected and set as driver', function (done) {
+      it('should be fulfilled and set as driver', function () {
         req = httpMocks.createExpressRequest({
           params : { id: user1['_id'] }
         });
         res = httpMocks.createExpressResponse();
-        middleware.setAsDriver(req, res)
-        .should.be.fulfilled
-        .and.eventually.to.have.property("driver").equals(true)
-        .notify(done);
+        
+        return middleware.setAsDriver(req, res)
+        .should.eventually.be.fulfilled
+        .and.to.include({ok:1, nModified:1, n:1});
       });
 
-      it('should be fullfilled and equals null if user not found', function (done){
+      it.only('should be fulfilled and not modify any other', function (){
         req = httpMocks.createExpressRequest({
           params:{ id: "344332234422331123456778" }
         });
         res = httpMocks.createExpressResponse();
-        middleware.setAsDriver(req, res)
-        .should.be.fulfilled.and.eventually.be.equals(null).notify(done);
+        
+        return middleware.setAsDriver(req, res)
+        .should.be.fulfilled
+        .and.to.include({ok:1, nModified:0, n:0});
       });
     });
     

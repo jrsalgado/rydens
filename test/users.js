@@ -27,8 +27,8 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware) {
         req = httpMocks.createExpressRequest({ body: laurita });
         res = httpMocks.createExpressResponse();
         
-        return middleware.saveNewUser(req, res).
-        should.eventually.be.fulfilled
+        return middleware.saveNewUser(req, res)
+        .should.eventually.be.fulfilled
         .and.to.include(laurita);
       });
       

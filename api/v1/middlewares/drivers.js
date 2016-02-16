@@ -14,7 +14,7 @@ function driversMiddlewares(UserModel) {
   }
   
   function setAsDriver(req, res){
-    return UserModel.findOneAsync({_id: req.params.id});
+    return UserModel.updateAsync({_id: req.params.id},{driver:true});
   }
   
 }
