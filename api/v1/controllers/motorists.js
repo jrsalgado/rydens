@@ -1,7 +1,7 @@
 'use strict';
-module.exports = driversCtrls;
+module.exports = motoristsCtrls;
 
-function driversCtrls(driversMiddlewares) {
+function motoristsCtrls(motoristsMiddlewares) {
   
   return {
     fetchAll: fetchAll,
@@ -9,13 +9,13 @@ function driversCtrls(driversMiddlewares) {
   }
   
   function fetchAll(req, res, next){
-    return driversMiddlewares.fetchAllDrivers(req,res)
+    return motoristsMiddlewares.fetchAllDrivers(req,res)
     .then( res.json.bind(res) )
     .catch( next );
   }
   
   function setAsDriver(req, res, next){
-    return driversMiddlewares.setAsDriver(req, res)
+    return motoristsMiddlewares.setAsDriver(req, res)
     .then( res.json.bind(res) )
     .catch(next)
   }

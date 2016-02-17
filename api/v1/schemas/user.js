@@ -9,6 +9,6 @@ function userSchema(mongoose, locationSchema){
     nsApiId: {type: String},
     age: {type: Number, required: true},
     location: {type: locationSchema},
-    driver: {type: Boolean, default: false}
+    motorist: {type: Boolean, default: false}
   }).index({ "location" : "2dsphere" });;
 };

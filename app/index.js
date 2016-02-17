@@ -3,10 +3,10 @@
 
 module.exports= appRun;
 
-function appRun(app, bodyParser ,usersRouter, driversRouter){
-  console.log('driversRouter', driversRouter);
+function appRun(app, bodyParser ,usersRouter, motoristsRouter){
+  console.log('motoristsRouter', motoristsRouter);
   app.use(bodyParser.json());
-  app.use('/drivers', driversRouter);
+  app.use('/motorists', motoristsRouter);
   app.use('/users', usersRouter);
   
   app.listen(process.env.PORT, function(){

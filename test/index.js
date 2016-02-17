@@ -10,7 +10,7 @@ test.constant('chai', require('chai'));
 // Declare Factories
 test.factory('mocks', require('./mocks'));
 test.factory('users', require('./users'));
-test.factory('drivers', require('./drivers'));
+test.factory('motorists', require('./motorists'));
 
-test.run(['users', 'drivers', function(users, drivers){}]);
+test.run(['users', 'motorists', function(users, motorists){}]);
 di.injector(['test']);

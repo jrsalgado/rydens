@@ -16,12 +16,12 @@ function mocks() {
       name: "laurita",
       lastName: "garza",
       age: 24,
-      driver: true
+      motorist: true
     }, {
         name: "chalino",
         lastName: "sanchez",
         age: 70,
-        driver: true
+        motorist: true
       }],
     missing: {
       name: "popeye",
