@@ -11,7 +11,7 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
   describe('/driver', function () {
     var req, res;
     describe('GET /driver', function () {
-      before(function(){
+      before(function before(){
         return UserModel.removeAsync({})
           .then(function () {
             return Promise.map([mocks.users.full[0], mocks.users.full[1]], function (user) {
@@ -20,6 +20,11 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
             });
           })
       });
+      
+      after(function after(){
+       return  UserModel.removeAsync({});
+      });
+      
       it('should be an Array of drivers', function () {
         req = httpMocks.createExpressRequest();
         res = httpMocks.createExpressResponse();
@@ -30,7 +35,7 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
       });
     });
     
-    describe.skip('GET /driver/:id', function () {
+    describe.skip('GET /driver/:id', function () {      
       it('should return driver object', function () {
         
       });
