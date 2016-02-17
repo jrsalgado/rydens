@@ -3,7 +3,7 @@
 
 module.exports = usersTest;
 usersTest.$inject = ['chai', 'chai-as-promised', 'q', 'mocks', 'httpMocks', 'driversMiddlewares', 'UserModel', 'Promise'];
-
+//Todo: change driver variable
 function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserModel, Promise) {
   chai.use(chaiAsPromised);
   chai.should();
@@ -12,18 +12,13 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
     var req, res;
     describe('GET /driver', function () {
       before(function(){
-        var laurita, chalino;
-        
-        UserModel.remove({}, function(err){});
-        
-        laurita = mocks.users.full[0];
-        chalino = mocks.users.full[0];
-        
-        return Promise.map([laurita, chalino], function(user){
-          var newUser = new UserModel(user);
-          return newUser.saveAsync();
-        });
-        
+        return UserModel.removeAsync({})
+          .then(function () {
+            return Promise.map([mocks.users.full[0], mocks.users.full[1]], function (user) {
+              var newUser = new UserModel(user);
+              return newUser.saveAsync();
+            });
+          })
       });
       it('should be an Array of drivers', function () {
         req = httpMocks.createExpressRequest();
@@ -88,7 +83,7 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
 
         var res = httpMocks.createExpressResponse();
 
-        middleware.setAsDriver(req, res)
+        return middleware.setAsDriver(req, res)
         .should.eventually.be.fulfilled
         .and.to.include({ok:1, nModified:1, n:1});
       });
@@ -99,7 +94,7 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
         });
         res = httpMocks.createExpressResponse();
         
-        middleware.setAsDriver(req, res)
+        return middleware.setAsDriver(req, res)
         .should.eventually.be.fulfilled
         .and.to.include({ok:1, nModified:0, n:0});
       });

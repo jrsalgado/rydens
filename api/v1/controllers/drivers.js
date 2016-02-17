@@ -9,23 +9,15 @@ function driversCtrls(driversMiddlewares) {
   }
   
   function fetchAll(req, res, next){
-    driversMiddlewares.fetchAllDrivers(req,res)
-    .then(function success(drivers){
-      res.json(drivers);
-    })
-    .catch(function error(err){
-      next(err);
-    });
+    return driversMiddlewares.fetchAllDrivers(req,res)
+    .then( res.json.bind(res) )
+    .catch( next );
   }
   
   function setAsDriver(req, res, next){
-    driversMiddlewares.setAsDriver(req, res)
-    .then(function success(result){
-      res.json(result);
-    })
-    .catch(function error(err){
-      next(err);
-    })
+    return driversMiddlewares.setAsDriver(req, res)
+    .then( res.json.bind(res) )
+    .catch(next)
   }
   
 }

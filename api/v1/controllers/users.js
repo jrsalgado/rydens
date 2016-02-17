@@ -10,23 +10,15 @@ function usersCtrls(usersMiddlewares) {
   }
 
   function getAll(req, res, next) {
-    usersMiddlewares.fetchAllUsers(req, res)
-    .then(function succes(users){
-      res.json(users);
-    })
-    .catch(function error(err){
-      next(err);
-    });
+    return usersMiddlewares.fetchAllUsers(req, res)
+    .then(res.json.bind(res))
+    .catch(next);
   }
   
   function createOne(req, res, next) {
-    usersMiddlewares.saveNewUser(req, res)
-    .then(function success(user){
-      res.json(user);
-    })
-    .catch(function error(err){
-      next(err)
-    });
+    return usersMiddlewares.saveNewUser(req, res)
+    .then(res.json.bind(res))
+    .catch(next);
   }
 
 }
