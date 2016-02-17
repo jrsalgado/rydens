@@ -16,10 +16,8 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
         
         UserModel.remove({}, function(err){});
         
-        laurita = mocks.users.good[0];
-        laurita.driver = true;
-        chalino = mocks.users.good[1];
-        chalino.driver = true;
+        laurita = mocks.users.full[0];
+        chalino = mocks.users.full[0];
         
         return Promise.map([laurita, chalino], function(user){
           var newUser = new UserModel(user);
@@ -67,34 +65,42 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
     
     describe('PATCH /driver/set/:id', function () {
       var user1;
-      before(function(done){
-        UserModel.remove({}, function(err){
+      before(function(){
+        
+        return UserModel.removeAsync({})
+        .then(function(){
+          return new UserModel(mocks.users.good[0])
+          .saveAsync();
+        }).then(function(user){
+          user1 = user;
         });
-        user1 = new UserModel(mocks.users.good[0]);
-        user1.save(function(err, user){
-          done();
-        });
+        
+      });
+      
+      after(function(){
+        return UserModel.removeAsync({});
       });
 
       it('should be fulfilled and set as driver', function () {
-        req = httpMocks.createExpressRequest({
+        var req = httpMocks.createExpressRequest({
           params : { id: user1['_id'] }
         });
-        res = httpMocks.createExpressResponse();
-        
-        return middleware.setAsDriver(req, res)
+
+        var res = httpMocks.createExpressResponse();
+
+        middleware.setAsDriver(req, res)
         .should.eventually.be.fulfilled
         .and.to.include({ok:1, nModified:1, n:1});
       });
 
-      it.only('should be fulfilled and not modify any other', function (){
+      it.skip('should be fulfilled and not modify any other', function (){
         req = httpMocks.createExpressRequest({
           params:{ id: "344332234422331123456778" }
         });
         res = httpMocks.createExpressResponse();
         
-        return middleware.setAsDriver(req, res)
-        .should.be.fulfilled
+        middleware.setAsDriver(req, res)
+        .should.eventually.be.fulfilled
         .and.to.include({ok:1, nModified:0, n:0});
       });
     });

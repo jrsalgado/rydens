@@ -6,7 +6,8 @@ function usersMiddlewares(UserModel) {
 
   return {
     fetchAllUsers: fetchAllUsers,
-    saveNewUser: saveNewUser
+    saveNewUser: saveNewUser,
+    deleteUser: deleteUser
   }
 
   function fetchAllUsers(req, res) {
@@ -16,6 +17,10 @@ function usersMiddlewares(UserModel) {
   function saveNewUser(req, res) {
     var newUser = new UserModel(req.body);
     return newUser.saveAsync();
+  }
+  
+  function deleteUser(req, res){
+    return UserModel.findByIdAndRemove(req.params.id);
   }
   
 }

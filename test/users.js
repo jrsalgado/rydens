@@ -2,9 +2,9 @@
 /*global describe, it, before, after, beforeEach, afterEach*/
 
 module.exports = usersTest;
-usersTest.$inject = ['chai', 'chai-as-promised', 'q', 'mocks', 'httpMocks', 'usersMiddlewares'];
+usersTest.$inject = ['chai', 'chai-as-promised', 'q', 'mocks', 'httpMocks', 'usersMiddlewares', 'UserModel'];
 
-function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware) {
+function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserModel) {
   chai.use(chaiAsPromised);
   chai.should();
 
@@ -39,6 +39,23 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware) {
         return middleware.saveNewUser(req, res).should.eventually.be.rejected;
       });
 
+    });
+    
+    
+    describe('DELETE /users:id', function () {
+      var laurita;
+      before(function(){
+        laurita = new UserModel(mocks.users.good[0]);
+        laurita.save();
+      })
+      it('should respond with the removed user', function () {
+        req = httpMocks.createExpressRequest({params:{id:laurita['_id']}});
+        res = httpMocks.createExpressResponse();
+        
+        return middleware.deleteUser(req, res)
+        .should.eventually.be.fulfilled
+        .and.to.include(mocks.users.good[0]);
+      });
     });
 
   });
