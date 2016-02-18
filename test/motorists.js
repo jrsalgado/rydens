@@ -9,7 +9,6 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
   chai.should();
 
   describe('/motorist', function () {
-    var req, res;
     describe('GET /motorist', function () {
       before(function before(){
         return UserModel.removeAsync({})
@@ -26,6 +25,7 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
       });
       
       it('should be an Array of motorists', function () {
+        var req, res;
         req = httpMocks.createExpressRequest();
         res = httpMocks.createExpressResponse();
         
@@ -53,7 +53,6 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
       
       it('should return motorist object', function () {
         var req, res;
-        
         req = httpMocks.createExpressRequest({
           params:{id: user1.id }
         });
@@ -61,6 +60,14 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
         
         return middleware.getById(req, res)
         .should.eventually.to.be.an.instanceof(UserModel);
+      });
+      
+      it('should throw and error while missing id', function () {
+        var req, res;
+        req = httpMocks.createExpressRequest();
+        res = httpMocks.createExpressResponse();
+        return middleware.getById.bind(middleware,req, res)
+        .should.throw('id is missing');
       });
       
     });
@@ -156,6 +163,16 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
         .should.eventually.be.fulfilled
         .and.to.include({ok:1, nModified:0, n:0});
       });
+      
+      it('should throw an error if id is missing', function (){
+        var req, res;
+        req = httpMocks.createExpressRequest();
+        res = httpMocks.createExpressResponse();
+        
+        return middleware.setAsMotorist.bind(middleware, req, res)
+        .should.throw("id is missing");
+      });
+      
     });
     
     describe('PATCH /motorist/unset/:id', function () {

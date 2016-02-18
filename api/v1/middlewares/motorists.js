@@ -17,6 +17,9 @@ function motoristsMiddlewares(UserModel) {
   }
   
   function setAsMotorist(req, res){
+    if(!req.params ||!req.params.id){
+      throw new Error("id is missing")
+    }
     return UserModel.updateAsync({_id: req.params.id},{motorist:true});
   }
   
@@ -28,6 +31,9 @@ function motoristsMiddlewares(UserModel) {
   }
 
   function getById(req, res){
+    if(!req.params ||!req.params.id){
+      throw new Error("id is missing")
+    }
     return UserModel.findByIdAsync(req.params.id)
   }
   
