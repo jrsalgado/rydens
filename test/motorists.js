@@ -3,7 +3,7 @@
 
 module.exports = usersTest;
 usersTest.$inject = ['chai', 'chai-as-promised', 'q', 'mocks', 'httpMocks', 'motoristsMiddlewares', 'UserModel', 'Promise'];
-//Todo: change motorist variable
+
 function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserModel, Promise) {
   chai.use(chaiAsPromised);
   chai.should();
@@ -35,13 +35,32 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
       });
     });
     
-    describe.skip('GET /motorist/:id', function () {      
-      it('should return motorist object', function () {
-        
+    describe.only('GET /motorist/:id', function () {
+      var user1;
+      before(function before(){
+        return UserModel.removeAsync({})
+        .then(function(){
+          return new UserModel(mocks.users.full[0])
+          .saveAsync().then(function(user){
+            user1 = user;
+          });
+        });
       });
       
-      it(('should Not be rejected'), function(){
+      after(function after(){
+        return UserModel.removeAsync({});
+      });
+      
+      it('should return motorist object', function () {
+        var req, res;
         
+        req = httpMocks.createExpressRequest({
+          params:{id: user1.id }
+        });
+        res = httpMocks.createExpressResponse();
+        
+        return middleware.getById(req, res)
+        .should.eventually.to.be.an.instanceof(UserModel);
       });
       
     });
