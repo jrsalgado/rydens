@@ -116,20 +116,9 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
       
     });
     
-    describe.skip('PATCH /motorist/:id/location', function () {
-      
-      it('should be resolved when body is correct', function(){
-        
-      });
-      
-      it('should be rejected when missing elements in body', function () {
-        
-      });
-    });
-    
     describe('PATCH /motorist/set/:id', function () {
       var user1;
-      before(function(){
+      beforeEach(function(){
         
         return UserModel.removeAsync({})
         .then(function(){
@@ -138,7 +127,6 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
         }).then(function(user){
           user1 = user;
         });
-        
       });
       
       after(function(){
@@ -158,6 +146,7 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
       });
 
       it('should be fulfilled and not modify any other', function (){
+        var req, res;
         req = httpMocks.createExpressRequest({
           params:{ id: "344332234422331123456778" }
         });
@@ -169,7 +158,43 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
       });
     });
     
-    describe.skip('PATCH /motorist/unset/:id', function () {
+    describe('PATCH /motorist/unset/:id', function () {
+      var user1;
+      beforeEach(function(){
+        return UserModel.removeAsync({})
+        .then(function(){
+          return new UserModel(mocks.users.full[0])
+          .saveAsync();
+        }).then(function(user){
+          user1 = user;
+        });
+      });
+      
+      after(function(){
+        return UserModel.removeAsync({});
+      });
+      
+      it('should set as false driver element', function () {
+        var req, res;
+        req = httpMocks.createExpressRequest({
+          params : { id: user1['_id'] }
+        });
+        res = httpMocks.createExpressResponse();
+        
+        return middleware.unsetAsMotorist(req, res)
+        .should.eventually.be.fulfilled
+        .and.to.include({ok:1, nModified:1, n:1})
+      });
+      
+      it('should trhow Error while missing id', function (){
+        var req, res;
+        req = httpMocks.createExpressRequest();
+        res = httpMocks.createExpressResponse();
+        
+        return middleware.unsetAsMotorist.bind(middleware,req, res)
+        .should.throw("id is missing")
+      });
+      
     });
     
   });

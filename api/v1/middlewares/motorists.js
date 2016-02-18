@@ -8,7 +8,8 @@ function motoristsMiddlewares(UserModel) {
     fetchAllMotorists: fetchAllMotorists,
     setAsMotorist: setAsMotorist,
     getById: getById,
-    setLocationById: setLocationById
+    setLocationById: setLocationById,
+    unsetAsMotorist: unsetAsMotorist
   }
   
   function fetchAllMotorists(req, res){
@@ -19,6 +20,13 @@ function motoristsMiddlewares(UserModel) {
     return UserModel.updateAsync({_id: req.params.id},{motorist:true});
   }
   
+  function unsetAsMotorist(req, res){
+    if(!req.params ||!req.params.id){
+      throw new Error("id is missing")
+    }
+    return UserModel.updateAsync({_id: req.params.id},{motorist:false});
+  }
+
   function getById(req, res){
     return UserModel.findByIdAsync(req.params.id)
   }
