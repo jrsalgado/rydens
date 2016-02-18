@@ -35,7 +35,7 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
       });
     });
     
-    describe.only('GET /motorist/:id', function () {
+    describe('GET /motorist/:id', function () {
       var user1;
       before(function before(){
         return UserModel.removeAsync({})
@@ -65,10 +65,55 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
       
     });
     
-    describe.skip('GET /motorist/:id/location', function () {
-      it('should not be rejected', function(){
-        
+    describe('PATCH /motorist/:id/location', function () {
+      var user1;
+      beforeEach(function(){
+        return UserModel.removeAsync()
+        .then(function(){
+          return new UserModel(mocks.users.full[0]).saveAsync()
+          .then(function(user){
+            return user1 = user;
+          })
+          .catch(function(err){
+            return err;
+          });
+        })
       });
+      
+      after(function(){
+        return UserModel.removeAsync()
+      });
+      
+      it('should change the motorist location', function(){
+        var req, res;
+        
+        req = httpMocks.createExpressRequest({
+          params:{id: user1.id },
+          body:{coordinates:{
+            latitude: -111.0249045,
+            longitude: 29.0973134
+          }}
+        });
+        res = httpMocks.createExpressResponse();
+        
+        return middleware.setLocationById(req, res)
+        .should.eventually.be.an('object')
+        .and.to.be.deep.equal({'n':1, 'nModified':1, 'ok':1})
+      });
+      
+      it('should trhow error when empty coordinates ', function(){
+        var req, res;
+        
+        req = httpMocks.createExpressRequest({
+          params:{id: user1.id },
+          body:{coordinates:{}}
+        });
+        res = httpMocks.createExpressResponse();
+        
+        return middleware.setLocationById.bind(middleware,req, res)
+        .should.throw("required coordinates");
+      });
+      
     });
     
     describe.skip('PATCH /motorist/:id/location', function () {
