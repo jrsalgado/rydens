@@ -8,8 +8,8 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
   chai.use(chaiAsPromised);
   chai.should();
 
-  describe('/motorist', function () {
-    describe('GET /motorist', function () {
+  describe('Motorists Middlewares', function () {
+    describe('fetchAllMotorists', function () {
       before(function before(){
         return UserModel.removeAsync({})
           .then(function () {
@@ -35,7 +35,7 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
       });
     });
     
-    describe('GET /motorist/:id', function () {
+    describe('getById', function () {
       var user1;
       before(function before(){
         return UserModel.removeAsync({})
@@ -72,7 +72,7 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
       
     });
     
-    describe('PATCH /motorist/:id/location', function () {
+    describe('setLocationById', function () {
       var user1;
       beforeEach(function(){
         return UserModel.removeAsync()
@@ -123,7 +123,7 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
       
     });
     
-    describe('PATCH /motorist/set/:id', function () {
+    describe('setAsMotorist', function () {
       var user1;
       beforeEach(function(){
         
@@ -175,7 +175,7 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
       
     });
     
-    describe('PATCH /motorist/unset/:id', function () {
+    describe('unsetAsMotorist', function () {
       var user1;
       beforeEach(function(){
         return UserModel.removeAsync({})
@@ -213,6 +213,5 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
       });
       
     });
-    
   });
 }
