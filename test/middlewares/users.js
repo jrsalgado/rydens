@@ -140,6 +140,46 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
       });
       
     });
+    
+    describe('getById', function () {
+      var laurita;
+      before(function(){
+        return UserModel.removeAsync().
+        then(function(){
+          return new UserModel(mocks.users.good[0])
+          .saveAsync()
+          .then(function(user){
+            return laurita = user;
+          })
+        });
+      });
+      
+      after(function(){
+        return UserModel.removeAsync();
+      });
+      
+      it('should return a user object', function(){
+        var req, res;
+        req = httpMocks.createExpressRequest({
+          params:{
+            id: laurita.id
+          }
+        });
+        res = httpMocks.createExpressResponse();
+        
+        return middleware.getById(req, res)
+        .should.eventually.be.fulfilled.and
+        .be.instanceof(UserModel)
+      });
+      
+      it('should trhow an error if missing id', function(){
+        var req, res;
+        req = httpMocks.createExpressRequest();
+        res = httpMocks.createExpressResponse();
+        return middleware.getById.bind(middleware, req, res)
+        .should.throw("id is missing");
+      });
+    });
 
   });
 }
