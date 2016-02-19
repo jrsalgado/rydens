@@ -56,21 +56,41 @@ function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserMo
     });
     
     
-    describe('deleteUser', function () {
+    describe('removeById', function () {
       var laurita;
-      before(function(){
-        laurita = new UserModel(mocks.users.good[0]);
-        laurita.save();
-      })
+      beforeEach(function(){
+        return UserModel.removeAsync()
+        .then(function(){
+          return new UserModel(mocks.users.good[0])
+          .saveAsync()
+          .then(function(user){
+            laurita = user;
+          });
+        })
+      });
+      
+      after(function(){
+        return UserModel.removeAsync();  
+      });
+      
       it('should respond with the removed user', function () {
         var req, res;
         req = httpMocks.createExpressRequest({params:{id:laurita['_id']}});
         res = httpMocks.createExpressResponse();
         
-        return middleware.deleteUser(req, res)
+        return middleware.removeById(req, res)
         .should.eventually.be.fulfilled
         .and.to.include(mocks.users.good[0]);
       });
+      
+      it('should throw an error when missing id', function () {
+        var req, res;
+        req = httpMocks.createExpressRequest();
+        res = httpMocks.createExpressResponse();
+        return middleware.removeById.bind(middleware , req, res)
+        .should.throw("id is missing");
+      });
+      
     });
     
     describe('updateById', function () {

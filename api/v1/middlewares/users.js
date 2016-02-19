@@ -7,7 +7,7 @@ function usersMiddlewares(UserModel) {
   return {
     fetchAllUsers: fetchAllUsers,
     saveNewUser: saveNewUser,
-    deleteUser: deleteUser,
+    removeById: removeById,
     updateById: updateById
   }
 
@@ -20,7 +20,10 @@ function usersMiddlewares(UserModel) {
     return newUser.saveAsync();
   }
   
-  function deleteUser(req, res){
+  function removeById(req, res){
+    if(!req.params || !req.params.id){
+      throw new Error("id is missing");
+    }
     return UserModel.findByIdAndRemove(req.params.id);
   }
   
