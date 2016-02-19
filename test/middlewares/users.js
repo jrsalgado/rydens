@@ -2,23 +2,35 @@
 /*global describe, it, before, after, beforeEach, afterEach*/
 
 module.exports = usersTest;
-usersTest.$inject = ['chai', 'chai-as-promised', 'q', 'mocks', 'httpMocks', 'usersMiddlewares', 'UserModel'];
+usersTest.$inject = ['chai', 'chai-as-promised', 'q', 'mocks', 'httpMocks', 'usersMiddlewares', 'UserModel', 'Promise'];
 
-function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserModel) {
+function usersTest(chai, chaiAsPromised, q, mocks, httpMocks, middleware, UserModel, Promise) {
   chai.use(chaiAsPromised);
   chai.should();
 
   describe('Users Middlewares', function () {
     describe('fetchAllUsers', function () {
       beforeEach(function () {
-
+        return UserModel.removeAsync({})
+          .then(function () {
+            return Promise.map([mocks.users.full[0], mocks.users.full[1]], function (user) {
+              return new UserModel(user)
+              .saveAsync();
+            });
+          })
       });
+      
+      after(function () {
+        return UserModel.removeAsync({});
+      });
+      
       it('should return an Array', function () {
         var req, res;
         req = httpMocks.createExpressRequest();
         res = httpMocks.createExpressResponse();
-        return middleware.fetchAllUsers(req, res).should.eventually.be.an('array');
+        return middleware.fetchAllUsers(req, res).should.eventually.be.an('array').to.have.length(2);
       });
+      
     });
 
     describe('saveNewUser', function () {
