@@ -15,7 +15,9 @@
     "mocha": "*",
     "mongodb": "*",
     "mongoose": "*",
+    "morgan": "^1.7.0",
     "ng-di": "^0.2.1",
+    "node-uuid": "^1.4.7",
     "q": "^1.4.1"
   },
   "engines": {

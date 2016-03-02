@@ -31,6 +31,8 @@ server.constant('bodyParser', require('body-parser'));
 server.constant('expressJoi', require('express-joi'));
 server.constant('q', require('q'));
 server.constant('Promise',  require('bluebird'));
+server.constant('morgan',  require('morgan'));
+server.constant('uuid',  require('node-uuid'));
 
 // Register App dependencies
   // schemas
