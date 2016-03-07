@@ -33,6 +33,7 @@ server.constant('q', require('q'));
 server.constant('Promise',  require('bluebird'));
 server.constant('morgan',  require('morgan'));
 server.constant('uuid',  require('node-uuid'));
+server.constant('methodOverride',  require('method-override'));
 
 // Register App dependencies
   // schemas

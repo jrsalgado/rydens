@@ -6,11 +6,14 @@ function validator(expressJoi){
   return{
     users:{
       post:{
-        name: Joi.types.String().max(30),
-        lastName: Joi.types.String(),
-        nsApiId: Joi.types.String(),
-        age: Joi.types.Number(),
+        name: Joi.types.String().max(30).required(),
+        lastName: Joi.types.String().max(30).required(),
+        nsApiId: Joi.types.String().optional(),
+        age: Joi.types.Number().required(),
         motorist: Joi.types.Boolean()
+      },
+      urlId:{
+        id: Joi.types.String().length(24).required()
       }
     },
     userLocation:{
