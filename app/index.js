@@ -14,6 +14,11 @@ function appRun(app, bodyParser ,usersRouter, motoristsRouter, morgan ,uuid, met
   app.use(bodyParser.json());
   app.use(methodOverride());
   app.use(morgan('dev'));
+  app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
   app.use('/motorists', motoristsRouter);
   app.use('/users', usersRouter);
   app.use('*', function(req, res, next){
